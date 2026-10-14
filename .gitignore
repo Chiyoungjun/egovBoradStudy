@@ -1,0 +1,20 @@
+# Maven build
+target/
+
+# Eclipse workspace
+.metadata/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Server temporary files
+Servers/
+work/
+temp/
+
+# 게시판 테스트 업로드 파일
+src/main/webapp/resources/upload/board/

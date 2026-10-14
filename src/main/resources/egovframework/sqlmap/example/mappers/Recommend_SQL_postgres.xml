@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="recommendDAO">
+
+    <select id="selectBoardPostCount" parameterType="egovframework.example.recommend.service.RecommendVO" resultType="int">
+        SELECT COUNT(*)
+        FROM board_info
+        WHERE bi_idx=#{biIdx}
+          AND bi_type=1
+    </select>
+
+    <select id="selectRecommendCheck" parameterType="egovframework.example.recommend.service.RecommendVO" resultType="int">
+        SELECT COUNT(*)
+        FROM board_recommend_info
+        WHERE bi_idx=#{biIdx}
+          AND ui_idx=#{uiIdx}
+    </select>
+
+    <select id="selectRecommendCount" parameterType="egovframework.example.recommend.service.RecommendVO" resultType="int">
+        SELECT COUNT(*)
+        FROM board_recommend_info
+        WHERE bi_idx=#{biIdx}
+    </select>
+
+    <insert id="insertRecommend" parameterType="egovframework.example.recommend.service.RecommendVO">
+        INSERT INTO board_recommend_info
+        (bi_idx,ui_idx,time_created)
+        VALUES
+        (#{biIdx},#{uiIdx},CURRENT_TIMESTAMP)
+    </insert>
+
+    <delete id="deleteRecommend" parameterType="egovframework.example.recommend.service.RecommendVO">
+        DELETE FROM board_recommend_info
+        WHERE bi_idx=#{biIdx}
+          AND ui_idx=#{uiIdx}
+    </delete>
+
+</mapper>

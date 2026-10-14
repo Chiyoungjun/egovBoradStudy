@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boardDAO">
+
+    <resultMap id="boardResult"
+               type="egovframework.example.board.service.BoardVO">
+
+        <result property="biIdx" column="bi_idx"/>
+        <result property="uiIdx" column="ui_idx"/>
+        <result property="uiName" column="ui_name"/>
+        <result property="biType" column="bi_type"/>
+        <result property="biTitle" column="bi_title"/>
+        <result property="biContent" column="bi_content"/>
+        <result property="biCategory" column="bi_category"/>
+        <result property="biFilename" column="bi_filename"/>
+        <result property="biFilepath" column="bi_filepath"/>
+        <result property="biRefidx" column="bi_refidx"/>
+        <result property="recommendCount" column="recommend_count"/>
+        <result property="timeCreated" column="time_created"/>
+        <result property="timeModified" column="time_modified"/>
+
+    </resultMap>
+
+    <!-- 게시판 목록 -->
+    <select id="selectBoardList"
+            parameterType="egovframework.example.board.service.BoardSearchVO"
+            resultMap="boardResult">
+
+        SELECT
+            b.bi_idx,
+            b.ui_idx,
+            u.ui_name,
+            b.bi_type,
+            b.bi_title,
+            b.bi_content,
+            b.bi_category,
+            b.bi_filename,
+            b.bi_filepath,
+            b.bi_refidx,
+            CAST(
+                (
+                    SELECT COUNT(*)
+                    FROM board_recommend_info r
+                    WHERE r.bi_idx = b.bi_idx
+                )
+                AS INTEGER
+            ) AS recommend_count,
+            b.time_created,
+            b.time_modified
+        FROM board_info b
+        INNER JOIN user_info u
+            ON b.ui_idx = u.ui_idx
+        WHERE b.bi_type = 1
+
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND b.bi_title
+                ILIKE '%' || #{searchKeyword} || '%'
+        </if>
+
+        <if test="categoryCode != null and categoryCode != ''">
+            AND b.bi_category = #{categoryCode}
+        </if>
+
+        <if test="minRecommend != null">
+            AND (
+                SELECT COUNT(*)
+                FROM board_recommend_info r
+                WHERE r.bi_idx = b.bi_idx
+            ) &gt;= #{minRecommend}
+        </if>
+
+        ORDER BY b.bi_idx DESC
+
+        LIMIT #{recordCountPerPage}
+        OFFSET #{firstIndex}
+
+    </select>
+
+    <!-- 게시판 전체 개수 -->
+    <select id="selectBoardListTotCnt"
+            parameterType="egovframework.example.board.service.BoardSearchVO"
+            resultType="int">
+
+        SELECT COUNT(*)
+        FROM board_info b
+        WHERE b.bi_type = 1
+
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND b.bi_title
+                ILIKE '%' || #{searchKeyword} || '%'
+        </if>
+
+        <if test="categoryCode != null and categoryCode != ''">
+            AND b.bi_category = #{categoryCode}
+        </if>
+
+        <if test="minRecommend != null">
+            AND (
+                SELECT COUNT(*)
+                FROM board_recommend_info r
+                WHERE r.bi_idx = b.bi_idx
+            ) &gt;= #{minRecommend}
+        </if>
+
+    </select>
+
+    <!-- 게시글 상세조회 -->
+    <select id="selectBoardDetail"
+            parameterType="egovframework.example.board.service.BoardVO"
+            resultMap="boardResult">
+
+        SELECT
+            b.bi_idx,
+            b.ui_idx,
+            u.ui_name,
+            b.bi_type,
+            b.bi_title,
+            b.bi_content,
+            b.bi_category,
+            b.bi_filename,
+            b.bi_filepath,
+            b.bi_refidx,
+            CAST(
+                (
+                    SELECT COUNT(*)
+                    FROM board_recommend_info r
+                    WHERE r.bi_idx = b.bi_idx
+                )
+                AS INTEGER
+            ) AS recommend_count,
+            b.time_created,
+            b.time_modified
+        FROM board_info b
+        INNER JOIN user_info u
+            ON b.ui_idx = u.ui_idx
+        WHERE b.bi_idx = #{biIdx}
+          AND b.bi_type = 1
+
+    </select>
+
+    <!-- 게시글 등록 -->
+    <insert id="insertBoard"
+            parameterType="egovframework.example.board.service.BoardVO"
+            useGeneratedKeys="true"
+            keyProperty="biIdx"
+            keyColumn="bi_idx">
+
+        INSERT INTO board_info
+        (
+            ui_idx,
+            bi_type,
+            bi_title,
+            bi_content,
+            bi_category,
+            bi_filename,
+            bi_filepath,
+            bi_refidx,
+            time_created,
+            time_modified
+        )
+        VALUES
+        (
+            #{uiIdx},
+            1,
+            #{biTitle},
+            #{biContent},
+            #{biCategory},
+            #{biFilename},
+            #{biFilepath},
+            NULL,
+            CURRENT_TIMESTAMP,
+            CURRENT_TIMESTAMP
+        )
+
+    </insert>
+
+    <!-- 게시글 수정 -->
+    <update id="updateBoard"
+            parameterType="egovframework.example.board.service.BoardVO">
+
+        UPDATE board_info
+
+        <set>
+            bi_title = #{biTitle},
+            bi_content = #{biContent},
+
+            <if test="biCategory != null and biCategory != ''">
+                bi_category = #{biCategory},
+            </if>
+
+            time_modified = CURRENT_TIMESTAMP
+        </set>
+
+        WHERE bi_idx = #{biIdx}
+          AND ui_idx = #{uiIdx}
+          AND bi_type = 1
+
+    </update>
+
+    <!-- 첨부파일 정보 수정 -->
+    <update id="updateBoardFile"
+            parameterType="egovframework.example.board.service.BoardVO">
+
+        UPDATE board_info
+        SET bi_filename = #{biFilename},
+            bi_filepath = #{biFilepath},
+            time_modified = CURRENT_TIMESTAMP
+        WHERE bi_idx = #{biIdx}
+          AND ui_idx = #{uiIdx}
+          AND bi_type = 1
+
+    </update>
+
+</mapper>

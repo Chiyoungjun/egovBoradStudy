@@ -1,0 +1,19 @@
+.detail-page{width:1000px;margin:0 auto;}
+.detail-wrap{width:850px;margin:0 auto;padding:24px 28px 35px;box-sizing:border-box;background:#6ea0d3;}
+.detail-top{display:flex;justify-content:flex-end;gap:10px;margin-bottom:15px;}
+.detail-btn{display:inline-block;min-width:76px;height:38px;padding:0 14px;border:1px solid #888;box-sizing:border-box;background:#ddd;color:#fff;line-height:36px;text-align:center;text-decoration:none;}
+.detail-update-btn{background:#f4dd8a;color:#222;}
+.detail-table{width:100%;border-collapse:collapse;table-layout:fixed;}
+.detail-table th,.detail-table td{padding:10px;border:1px solid #777;box-sizing:border-box;}
+.detail-table th{width:120px;background:#efc3a6;text-align:center;}
+.detail-table td{background:#fff;}
+.detail-content{min-height:170px;padding:15px;box-sizing:border-box;white-space:pre-wrap;line-height:1.6;}
+.detail-file-link{color:#3b2ca0;text-decoration:underline;}
+.recommend-area{display:flex;align-items:center;gap:12px;}
+.recommend-btn{min-width:80px;height:34px;padding:0 12px;border:1px solid #888;background:#f4dd8a;cursor:pointer;}
+.comment-section{margin-top:28px;padding:20px;box-sizing:border-box;background:#f4f4f4;}
+.comment-title{margin:0 0 14px;font-size:20px;}
+.comment-write{display:flex;align-items:flex-end;gap:10px;}
+.comment-write textarea{flex:1;height:80px;padding:10px;border:1px solid #aaa;box-sizing:border-box;resize:vertical;font-family:inherit;}
+.comment-register-btn{width:90px;height:42px;border:1px solid #888;background:#ddd;cursor:pointer;}
+.comment-list-area{margin-top:20px;}

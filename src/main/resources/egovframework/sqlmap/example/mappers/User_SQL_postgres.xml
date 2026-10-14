@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="userDAO">
+
+    <resultMap id="userResult"
+               type="egovframework.example.user.service.UserVO">
+        <result property="uiIdx" column="ui_idx"/>
+        <result property="uiName" column="ui_name"/>
+        <result property="uiId" column="ui_id"/>
+        <result property="uiPwd" column="ui_pwd"/>
+        <result property="uiLastlogin" column="ui_lastlogin"/>
+        <result property="timeCreated" column="time_created"/>
+        <result property="timeModified" column="time_modified"/>
+    </resultMap>
+
+    <!-- 사용자 조회 -->
+    <select id="selectLoginUser"
+            parameterType="egovframework.example.user.service.UserVO"
+            resultMap="userResult">
+
+        SELECT
+            ui_idx,
+            ui_name,
+            ui_id,
+            ui_pwd,
+            ui_lastlogin,
+            time_created,
+            time_modified
+        FROM user_info
+        WHERE ui_id = #{uiId}
+
+    </select>
+
+    <!-- 회원가입 -->
+    <insert id="insertUser"
+            parameterType="egovframework.example.user.service.UserVO">
+
+        INSERT INTO user_info
+        (
+            ui_name,
+            ui_id,
+            ui_pwd,
+            ui_lastlogin,
+            time_created,
+            time_modified
+        )
+        VALUES
+        (
+            #{uiId},
+            #{uiId},
+            #{uiPwd},
+            NULL,
+            CURRENT_TIMESTAMP,
+            CURRENT_TIMESTAMP
+        )
+
+    </insert>
+
+    <!-- 마지막 로그인 -->
+    <update id="updateLastLogin"
+            parameterType="egovframework.example.user.service.UserVO">
+
+        UPDATE user_info
+        SET
+            ui_lastlogin = CURRENT_TIMESTAMP,
+            time_modified = CURRENT_TIMESTAMP
+        WHERE ui_idx = #{uiIdx}
+
+    </update>
+
+</mapper>

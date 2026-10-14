@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boardTreeDAO">
+
+    <resultMap id="boardTreeResult"
+               type="egovframework.example.board.service.BoardTreeVO">
+
+        <result property="treeId" column="tree_id"/>
+        <result property="parentTreeId" column="parent_tree_id"/>
+        <result property="treeName" column="tree_name"/>
+        <result property="nodeType" column="node_type"/>
+        <result property="target" column="target"/>
+        <result property="categoryCode" column="category_code"/>
+        <result property="minRecommend" column="min_recommend"/>
+        <result property="biIdx" column="bi_idx"/>
+        <result property="recommendCount" column="recommend_count"/>
+        <result property="isParent" column="is_parent"/>
+
+    </resultMap>
+
+    <select id="selectBoardTreeList"
+            resultMap="boardTreeResult">
+
+        SELECT
+            CAST(t.bti_idx AS VARCHAR) AS tree_id,
+            CASE
+                WHEN t.bti_refidx IS NULL THEN '0'
+                ELSE CAST(t.bti_refidx AS VARCHAR)
+            END AS parent_tree_id,
+            t.bti_name AS tree_name,
+            t.bti_type AS node_type,
+            t.bti_target AS target,
+            t.bti_category AS category_code,
+            t.bti_minrecommend AS min_recommend,
+            NULL::BIGINT AS bi_idx,
+            NULL::INTEGER AS recommend_count,
+            CASE
+                WHEN t.bti_type IN ('ROOT', 'CATEGORY', 'RECOMMEND') THEN TRUE
+                ELSE FALSE
+            END AS is_parent
+        FROM board_tree_info t
+        WHERE t.bti_group = 'BOARD'
+          AND t.bti_useyn = 'Y'
+        ORDER BY t.bti_level,
+                 t.bti_refidx NULLS FIRST,
+                 t.bti_seq
+
+    </select>
+
+    <select id="selectRecommendPostList"
+            parameterType="egovframework.example.board.service.BoardTreeVO"
+            resultMap="boardTreeResult">
+
+        SELECT
+            'POST_' || #{parentTreeId} || '_' || CAST(b.bi_idx AS VARCHAR) AS tree_id,
+            #{parentTreeId} AS parent_tree_id,
+            b.bi_title AS tree_name,
+            'POST' AS node_type,
+            'BOARD_DETAIL' AS target,
+            #{categoryCode} AS category_code,
+            #{minRecommend} AS min_recommend,
+            b.bi_idx AS bi_idx,
+            CAST(COUNT(r.bri_idx) AS INTEGER) AS recommend_count,
+            FALSE AS is_parent
+        FROM board_info b
+        LEFT JOIN board_recommend_info r
+            ON b.bi_idx = r.bi_idx
+        WHERE b.bi_type = 1
+          AND b.bi_category = #{categoryCode}
+        GROUP BY b.bi_idx, b.bi_title
+        HAVING COUNT(r.bri_idx) &gt;= #{minRecommend}
+        ORDER BY COUNT(r.bri_idx) DESC,
+                 b.bi_idx DESC
+
+    </select>
+
+</mapper>

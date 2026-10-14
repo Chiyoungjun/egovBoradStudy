@@ -1,0 +1,160 @@
+@import url("boardForm.css");
+@import url("boardDetail.css");
+@import url("comment.css");
+@import url("authModal.css");
+
+body {
+    margin:0;
+    padding:0;
+    background:#f5f5f5;
+    font-family:"맑은 고딕",Malgun Gothic,sans-serif;
+}
+
+.board-wrap {
+    width:1250px;
+    max-width:calc(100% - 40px);
+    margin:0 auto;
+    padding:24px 28px 35px;
+    box-sizing:border-box;
+    background:#6ea0d3;
+}
+
+.top-info {
+    margin-bottom:20px;
+    text-align:right;
+    font-size:14px;
+    color:#000;
+}
+
+.board-toolbar {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:26px;
+}
+
+.search-area {
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.search-area input[type="text"] {
+    width:160px;
+    height:34px;
+    padding:0 8px;
+    border:1px solid #999;
+    box-sizing:border-box;
+    background:#fff;
+}
+
+.search-area button {
+    width:70px;
+    height:40px;
+    border:1px solid #999;
+    background:#eee;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.button-area {
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.btn-link {
+    display:inline-block;
+    min-width:64px;
+    height:40px;
+    padding:0 16px;
+    border:1px solid #777;
+    box-sizing:border-box;
+    background:#f2f2f2;
+    color:#000;
+    line-height:38px;
+    text-align:center;
+    text-decoration:none;
+    font-size:14px;
+    white-space:nowrap;
+}
+
+.btn-register {
+    background:#f4dd8a;
+}
+
+.board-table {
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+}
+
+.board-table th,
+.board-table td {
+    padding:11px 8px;
+    border:2px solid #3d79ad;
+    box-sizing:border-box;
+    vertical-align:middle;
+}
+
+.board-table th {
+    background:#efc3a6;
+    color:#fff;
+    font-weight:normal;
+    text-align:center;
+    white-space:nowrap;
+}
+
+.board-table td {
+    background:#fffaf6;
+    color:#222;
+}
+
+.board-table td:nth-child(1),
+.board-table td:nth-child(2),
+.board-table td:nth-child(5),
+.board-table td:nth-child(6),
+.board-table td:nth-child(7) {
+    text-align:center;
+}
+
+.board-title-cell {
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.board-table td:nth-child(4),
+.board-table td:nth-child(5),
+.board-table td:nth-child(6),
+.board-table td:nth-child(7) {
+    white-space:nowrap;
+}
+
+.paging-wrap {
+    margin-top:25px;
+    text-align:center;
+}
+
+.paging-wrap a,
+.paging-wrap strong,
+.paging-wrap span {
+    display:inline-block;
+    min-width:28px;
+    height:28px;
+    margin:0 2px;
+    padding:0 5px;
+    border:1px solid #bbb;
+    box-sizing:border-box;
+    background:#fff;
+    color:#333;
+    line-height:26px;
+    text-align:center;
+    text-decoration:none;
+}
+
+.paging-wrap strong {
+    background:#555;
+    color:#fff;
+    border-color:#555;
+}

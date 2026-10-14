@@ -1,0 +1,52 @@
+.comment-empty {
+    padding: 20px 10px;
+    border-top: 1px solid #ccc;
+    text-align: center;
+    color: #666;
+}
+
+.comment-item {
+    padding: 15px 10px;
+    border-top: 1px solid #ccc;
+    background: #fff;
+}
+
+.comment-info {
+    margin-bottom: 10px;
+}
+
+.comment-writer {
+    font-weight: bold;
+}
+
+.comment-date {
+    margin-left: 10px;
+    font-size: 13px;
+    color: #777;
+}
+
+.comment-content {
+    min-height: 40px;
+    padding: 8px 0;
+    white-space: pre-wrap;
+    line-height: 1.5;
+}
+
+.comment-edit-area textarea {
+    width: 100%;
+    height: 70px;
+    padding: 8px;
+    border: 1px solid #aaa;
+    box-sizing: border-box;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.comment-edit-btn {
+    min-width: 65px;
+    height: 32px;
+    margin-top: 6px;
+    border: 1px solid #888;
+    background: #eee;
+    cursor: pointer;
+}

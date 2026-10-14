@@ -1,0 +1,53 @@
+.board-layout {
+    display:flex;
+    align-items:flex-start;
+    gap:20px;
+    width:100%;
+}
+
+.board-tree-area {
+    flex:0 0 230px;
+    min-height:500px;
+    padding:15px;
+    border:2px solid #3d79ad;
+    box-sizing:border-box;
+    background:#fffaf6;
+}
+
+.board-tree-title {
+    margin-bottom:15px;
+    padding-bottom:10px;
+    border-bottom:1px solid #bbb;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.board-tree {
+    min-height:420px;
+}
+
+.board-list-area {
+    flex:1;
+    min-width:0;
+}
+
+.tree-filter-info {
+    margin-bottom:10px;
+    padding:10px 12px;
+    border:1px solid #3d79ad;
+    background:#fff;
+    font-size:14px;
+}
+
+.tree-filter-info strong {
+    margin-left:5px;
+}
+
+.tree-filter-info button {
+    margin-left:12px;
+    height:28px;
+    padding:0 10px;
+    border:1px solid #888;
+    background:#eee;
+    cursor:pointer;
+}
